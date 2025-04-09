@@ -5,45 +5,42 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-st.title('การจำแนกข้อมูลด้วยเทคนิค Machine Laerning')
+st.title('การทำนายข้อมูลโรคหัวใจเทคนิค KNN')
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Russia NothKorea")
-    st.image("./img/RK.jpg")
+    st.header("Heart1")
+    st.image("./img/Heart1.jpg")
 
 with col2:
-    st.header("Heart")
-    st.image("./img/RK1.jpg")
+    st.header("Heart2")
+    st.image("./img/Heart2.jpg")
 
-    html_7 = """
+html_7 = """
 <div style="background-color:#33beff;padding:15px;border-radius:15px 15px 15px 15px;border-style:'solid';border-color:black">
 <center><h5>ข้อมูล iris หรือข้อมูลดอกไม้สำหรับทำนาย</h5></center>
 </div>
 """
 st.markdown(html_7, unsafe_allow_html=True)
-st.markdown("")
-st.markdown("")
 
 st.subheader("ข้อมูลส่วนแรก 10 แถว")
-dt = pd.read_csv("./Heart3.csv")
+dt = pd.read_csv("./data/Heart3.csv")
 st.write(dt.head(10))
+
 st.subheader("ข้อมูลส่วนสุดท้าย 10 แถว")
 st.write(dt.tail(10))
 
-# สถิติพื้นฐาน
 st.subheader("📈 สถิติพื้นฐานของข้อมูล")
 st.write(dt.describe())
 
-# การเลือกแสดงกราฟตามฟีเจอร์
 st.subheader("📌 เลือกฟีเจอร์เพื่อดูการกระจายข้อมูล")
 feature = st.selectbox("เลือกฟีเจอร์", dt.columns[:-1])
 
-# วาดกราฟ boxplot
-st.write(f"### 🎯 Boxplot: {feature} แยกตามชนิดของดอกไม้")
+# วาด boxplot
+st.write(f"### 🎯 Boxplot: {feature} แยกตามหัวใจ")
 fig, ax = plt.subplots()
-sns.boxplot(data=dt, x='variety', y=feature, ax=ax)
+sns.boxplot(data=dt, x='HeartDiseasey', y=feature, ax=ax)
 st.pyplot(fig)
 
 # วาด pairplot
@@ -52,39 +49,47 @@ if st.checkbox("แสดง Pairplot (ใช้เวลาประมวล�
     fig2 = sns.pairplot(dt, hue='variety')
     st.pyplot(fig2)
 
-    html_8 = """
-<div style="background-color:#6BD5DA;padding:15px;border-radius:15px 15px 15px 15px;border-style:'solid';border-color:black">
+html_8 = """
+<div style="background-color:#6BD5DA;padding:15px;border-radius:15px 15px 15px 15px;border-style:solid;border-color:black">
 <center><h5>ทำนายข้อมูล</h5></center>
 </div>
 """
 st.markdown(html_8, unsafe_allow_html=True)
-st.markdown("")
 
-pt_len = st.slider("กรุณาเลือกข้อมูล petal.length")
-pt_wd = st.slider("กรุณาเลือกข้อมูล petal.width")
-
-sp_len = st.number_input("กรุณาเลือกข้อมูล sepal.length")
-sp_wd = st.number_input("กรุณาเลือกข้อมูล sepal.width")
+# อินพุตจากผู้ใช้
+A1 = st.number_input("กรุณาเลือกข้อมูล A1")
+A2 = st.number_input("กรุณาเลือกข้อมูล A2")
+A3 = st.number_input("กรุณาเลือกข้อมูล A3")
+A4 = st.number_input("กรุณาเลือกข้อมูล A4")
+A5 = st.number_input("กรุณาเลือกข้อมูล A5")
+A6 = st.number_input("กรุณาเลือกข้อมูล A6")
+A7 = st.number_input("กรุณาเลือกข้อมูล A7")
+A8 = st.number_input("กรุณาเลือกข้อมูล A8")
+A9 = st.number_input("กรุณาเลือกข้อมูล A9")
+A10 = st.number_input("กรุณาเลือกข้อมูล A10")
+A11 = st.number_input("กรุณาเลือกข้อมูล A11")
 
 if st.button("ทำนายผล"):
-    #st.write("ทำนาย")
-    dt = pd.read_csv("./data/iris-3.csv")
-    X = dt.drop('variety', axis=1)
-    y = dt.variety
+    # โหลดข้อมูลโรคหัวใจ
+    dt = pd.read_csv("./data/Heart3.csv")
+    X = dt.drop('HeartDiseasey', axis=1)
+    y = dt['HeartDiseasey']
 
+    # สร้างและฝึกโมเดล
     Knn_model = KNeighborsClassifier(n_neighbors=3)
     Knn_model.fit(X, y)
-    
-    x_input = np.array([[pt_len, pt_wd, sp_len, sp_wd]])
-    st.write(Knn_model.predict(x_input))
 
-    out=Knn_model.predict(x_input)
+    # เตรียมข้อมูลอินพุต
+    x_input = np.array([[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]])
+    prediction = Knn_model.predict(x_input)
 
-    if out[0] == 'Setosa':
-    st.image("./img/iris1.jpg")
-    elif out[0] == 'Versicolor':
-    st.image("./img/iris2.jpg")
+    # แสดงผลการทำนาย
+    st.subheader("ผลการทำนาย:")
+    if prediction[0] == 1:
+        st.success("มีแนวโน้มเป็นโรคหัวใจ")
+        st.image("./img/Heart1.jpg")
     else:
-    st.image("./img/iris3.jpg")
+        st.success("ไม่มีแนวโน้มเป็นโรคหัวใจ")
+        st.image("./img/Heart2.jpg")
 else:
-    st.write("ไม่ทำนาย")s
+    st.write("กรุณากรอกข้อมูลให้ครบ แล้วกดปุ่ม 'ทำนายผล'")
