@@ -5,7 +5,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-st.title('การจำแนกข้อมูลด้วยเทคนิค ML')
+st.title('การจำแนกข้อมูลด้วยเทคนิค KNN')
 #st.image("./img/moew.jpg")
 
 col1, col2 = st.columns(2)
