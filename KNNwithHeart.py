@@ -1,95 +1,95 @@
 from sklearn.neighbors import KNeighborsClassifier
-import streamlit as st
+import streamlit as st 
 import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-st.title('การทำนายข้อมูลโรคหัวใจเทคนิค KNN')
+st.title('การจำแนกข้อมูลด้วยเทคนิค ML')
+#st.image("./img/moew.jpg")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.header("Heart1")
-    st.image("./img/Heart1.jpg")
+   st.header("รอด🫀")
+   st.image("./img/Heart1.jpg")
 
 with col2:
-    st.header("Heart2")
-    st.image("./img/Heart2.jpg")
+   st.header("ไม่รอด💀")
+   st.image("./img/Heart2.jpg")
 
 html_7 = """
-<div style="background-color:#33beff;padding:15px;border-radius:15px 15px 15px 15px;border-style:'solid';border-color:black">
-<center><h5>ข้อมูล iris หรือข้อมูลดอกไม้สำหรับทำนาย</h5></center>
+<div style="background-color:#c5f18a;padding:15px;border-radius:15px 15px 15px 15px;border-style:'solid';border-color:black">
+<center><h5>การทำนายโรคหัวใจ</h5></center>
 </div>
 """
 st.markdown(html_7, unsafe_allow_html=True)
+st.markdown("")
+st.markdown("")
 
 st.subheader("ข้อมูลส่วนแรก 10 แถว")
 dt = pd.read_csv("./data/Heart3.csv")
 st.write(dt.head(10))
-
 st.subheader("ข้อมูลส่วนสุดท้าย 10 แถว")
 st.write(dt.tail(10))
 
+# สถิติพื้นฐาน
 st.subheader("📈 สถิติพื้นฐานของข้อมูล")
 st.write(dt.describe())
 
+# การเลือกแสดงกราฟตามฟีเจอร์
 st.subheader("📌 เลือกฟีเจอร์เพื่อดูการกระจายข้อมูล")
 feature = st.selectbox("เลือกฟีเจอร์", dt.columns[:-1])
 
-# วาด boxplot
-st.write(f"### 🎯 Boxplot: {feature} แยกตามหัวใจ")
+# วาดกราฟ boxplot
+st.write(f"### 🎯 Boxplot: {feature} แยกตามชนิดของดอกไม้")
 fig, ax = plt.subplots()
-sns.boxplot(data=dt, x='HeartDiseasey', y=feature, ax=ax)
+sns.boxplot(data=dt, x='HeartDisease', y=feature, ax=ax)
 st.pyplot(fig)
 
 # วาด pairplot
 if st.checkbox("แสดง Pairplot (ใช้เวลาประมวลผลเล็กน้อย)"):
     st.write("### 🌺 Pairplot: การกระจายของข้อมูลทั้งหมด")
-    fig2 = sns.pairplot(dt, hue='variety')
+    fig2 = sns.pairplot(dt, hue='HeartDisease')
     st.pyplot(fig2)
 
 html_8 = """
-<div style="background-color:#6BD5DA;padding:15px;border-radius:15px 15px 15px 15px;border-style:solid;border-color:black">
+<div style="background-color:#6BD5DA;padding:15px;border-radius:15px 15px 15px 15px;border-style:'solid';border-color:black">
 <center><h5>ทำนายข้อมูล</h5></center>
 </div>
 """
 st.markdown(html_8, unsafe_allow_html=True)
+st.markdown("")
 
-# อินพุตจากผู้ใช้
-A1 = st.number_input("กรุณาเลือกข้อมูล A1")
-A2 = st.number_input("กรุณาเลือกข้อมูล A2")
-A3 = st.number_input("กรุณาเลือกข้อมูล A3")
-A4 = st.number_input("กรุณาเลือกข้อมูล A4")
-A5 = st.number_input("กรุณาเลือกข้อมูล A5")
-A6 = st.number_input("กรุณาเลือกข้อมูล A6")
-A7 = st.number_input("กรุณาเลือกข้อมูล A7")
-A8 = st.number_input("กรุณาเลือกข้อมูล A8")
-A9 = st.number_input("กรุณาเลือกข้อมูล A9")
-A10 = st.number_input("กรุณาเลือกข้อมูล A10")
-A11 = st.number_input("กรุณาเลือกข้อมูล A11")
+a1 = st.number_input("กรุณาเลือกข้อมูล a1")
+a2 = st.number_input("กรุณาเลือกข้อมูล a2")
+a3 = st.number_input("กรุณาเลือกข้อมูล a3")
+a4 = st.number_input("กรุณาเลือกข้อมูล a4")
+a5 = st.number_input("กรุณาเลือกข้อมูล a5")
+a6 = st.number_input("กรุณาเลือกข้อมูล a6")
+a7 = st.number_input("กรุณาเลือกข้อมูล a7")
+a8 = st.number_input("กรุณาเลือกข้อมูล a8")
+a9 = st.number_input("กรุณาเลือกข้อมูล a9")
+a10 = st.number_input("กรุณาเลือกข้อมูล a10")
+a11 = st.number_input("กรุณาเลือกข้อมูล a11")
 
 if st.button("ทำนายผล"):
-    # โหลดข้อมูลโรคหัวใจ
-    dt = pd.read_csv("./data/Heart3.csv")
-    X = dt.drop('HeartDiseasey', axis=1)
-    y = dt['HeartDiseasey']
+    #st.write("ทำนาย")
+    #dt = pd.read_csv("./data/iris-3.csv") 
+   X = dt.drop('HeartDisease', axis=1)
+   y = dt.HeartDisease   
 
-    # สร้างและฝึกโมเดล
-    Knn_model = KNeighborsClassifier(n_neighbors=3)
-    Knn_model.fit(X, y)
+   Knn_model = KNeighborsClassifier(n_neighbors=3)
+   Knn_model.fit(X, y)  
+    
+   x_input = np.array([[a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11]])
+   st.write(Knn_model.predict(x_input))
+   
+   out=Knn_model.predict(x_input)
 
-    # เตรียมข้อมูลอินพุต
-    x_input = np.array([[A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11]])
-    prediction = Knn_model.predict(x_input)
-
-    # แสดงผลการทำนาย
-    st.subheader("ผลการทำนาย:")
-    if prediction[0] == 1:
-        st.success("มีแนวโน้มเป็นโรคหัวใจ")
-        st.image("./img/Heart1.jpg")
-    else:
-        st.success("ไม่มีแนวโน้มเป็นโรคหัวใจ")
-        st.image("./img/Heart2.jpg")
+   if out[0] == 1:
+    st.image("./img/Heart1.jpg")
+   else:
+    st.image("./img/Heart2.jpg")
 else:
-    st.write("กรุณากรอกข้อมูลให้ครบ แล้วกดปุ่ม 'ทำนายผล'")
+    st.write("ไม่ทำนาย")
